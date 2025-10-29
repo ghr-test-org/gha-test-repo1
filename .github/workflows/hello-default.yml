@@ -20,7 +20,7 @@ jobs:
           echo "Hello World"
           ls -la
           docker images
-          docker build -t helloworld ./helloworld
+          docker build -t helloworld ./helloworld --load
           docker images
           docker run helloworld echo "Hello, World!"
           docker images
