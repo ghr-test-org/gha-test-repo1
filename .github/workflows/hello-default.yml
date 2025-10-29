@@ -16,11 +16,10 @@ jobs:
           ref: main
 
       # Testing
+      # --load is required in docker build, or push to ECR and run from ECR
       - run: |
           echo "Hello World"
           ls -la
-          docker images
           docker build -t helloworld --load ./helloworld 
-          docker images
-          docker run helloworld echo "Hello, World!"
+          docker run helloworld echo "Hello, World from github action workflow!"
           docker images
