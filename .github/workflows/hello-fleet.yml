@@ -4,7 +4,7 @@ jobs:
   Hello-World-Job:
     # Override the environment setup in CodeBuild
     runs-on:
-      - codebuild-aws-tf-eks-demo-gha-runner-${{ github.run_id }}-${{ github.run_attempt }}
+      - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
         fleet:aws-tf-eks-demo-fleet
     steps:
       - run: echo "Hello World"
