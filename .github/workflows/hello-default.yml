@@ -20,6 +20,9 @@ jobs:
       - run: |
           echo "Hello World"
           ls -la
-          docker build -t helloworld --load ./helloworld 
-          docker run helloworld echo "Hello, World from github action workflow!"
+          echo Logging in to Amazon ECR...
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
+          docker build -t helloworld:latest ./helloworld 
+          docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest echo "Hello, World from github action workflow!"
           docker images
