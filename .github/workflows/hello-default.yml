@@ -24,5 +24,6 @@ jobs:
           aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
           docker build -t helloworld:latest ./helloworld 
           docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest echo "Hello, World from github action workflow!"
           docker images
