@@ -1,0 +1,20 @@
+name: Hello World Ubuntu Container
+on: [workflow_dispatch]
+jobs:
+  Hello-World-Job:
+    # Override the environment setup in CodeBuild
+    runs-on:
+      - codebuild-aws-tf-eks-demo-gha-runner-${{ github.run_id }}-${{ github.run_attempt }}
+        image:ubuntu-7.0
+        instance-size:small
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Testing
+      - run: |
+          echo "Hello World"
+          ls -la

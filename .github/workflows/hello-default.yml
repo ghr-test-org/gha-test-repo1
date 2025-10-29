@@ -1,0 +1,21 @@
+name: Hello World Default
+on: [workflow_dispatch]
+jobs:
+  Hello-World-Job:
+    # Use the environmet specified in CodeBuild
+    runs-on:
+      - codebuild-aws-tf-eks-demo-gha-runner-${{ github.run_id }}-${{ github.run_attempt }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Testing
+      - run: |
+          echo "Hello World"
+          ls -la
