@@ -18,3 +18,6 @@ jobs:
       - run: |
           echo "Hello World"
           ls -la
+          docker build -t helloworld --load ./helloworld 
+          docker run helloworld echo "Hello, World from github action workflow!"
+          docker images
