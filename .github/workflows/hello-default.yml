@@ -19,6 +19,8 @@ jobs:
       - run: |
           echo "Hello World"
           ls -la
-          docker buildx build ./helloworld
+          docker images
+          docker build -t helloworld ./helloworld
+          docker images
           docker run helloworld echo "Hello, World!"
           docker images
