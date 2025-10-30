@@ -30,6 +30,7 @@ jobs:
           docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest --push ./helloworld 
           # docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           # docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          docker images
       - name: docker_run
         run: |
           docker images
