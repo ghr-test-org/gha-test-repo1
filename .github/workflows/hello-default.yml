@@ -34,9 +34,9 @@ jobs:
           echo "docker ps..." && docker ps || echo "docker ps failed!!!"
           echo "docker images..." && docker images || echo "docker images failed!!!"
           echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
-          docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest --push ./helloworld || echo "docker build failed!!!"
+          docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest ./helloworld || echo "docker build failed!!!"
           # docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
-          # docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           echo "DOCKER_HOST...$DOCKER_HOST"
           echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
           echo "docker info..." && docker info || echo "docker info failed!!!"
