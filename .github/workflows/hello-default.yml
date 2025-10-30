@@ -33,7 +33,7 @@ jobs:
           echo "docker version..." && docker version || echo "docker version failed!!!"
           echo "docker ps..." && docker ps || echo "docker ps failed!!!"
           echo "docker images..." && docker images || echo "docker images failed!!!"
-          echo "docker context ls..." && docker context ls || echo "docker context ls failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
           docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest --push ./helloworld || echo "docker build failed!!!"
           # docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           # docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
@@ -43,7 +43,7 @@ jobs:
           echo "docker version..." && docker version || echo "docker version failed!!!"
           echo "docker ps..." && docker ps || echo "docker ps failed!!!"
           echo "docker images..." && docker images || echo "docker images failed!!!"
-          echo "docker context ls..." && docker context ls || echo "docker context ls failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
       - name: docker_run
         run: |
           echo "DOCKER_HOST...$DOCKER_HOST"
@@ -52,6 +52,6 @@ jobs:
           echo "docker version..." && docker version || echo "docker version failed!!!"
           echo "docker ps..." && docker ps || echo "docker ps failed!!!"
           echo "docker images..." && docker images || echo "docker images failed!!!"
-          echo "docker context ls..." && docker context ls || echo "docker context ls failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
           docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
           docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"

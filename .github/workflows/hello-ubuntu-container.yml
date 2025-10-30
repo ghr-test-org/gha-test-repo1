@@ -15,9 +15,42 @@ jobs:
           ref: main
 
       # Testing
-      - run: |
+      # --load is required in docker build, or push to ECR and run from ECR
+      - name: check_folder
+        run: |
           echo "Hello World"
           ls -la
-          docker build -t helloworld --load ./helloworld 
-          docker run helloworld echo "Hello, World from github action workflow!"
-          docker images
+      - name: ecr_login
+        run: |
+          echo Logging in to Amazon ECR...
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
+      - name: docker_build
+        run: |
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          echo "docker version..." && docker version || echo "docker version failed!!!"
+          echo "docker ps..." && docker ps || echo "docker ps failed!!!"
+          echo "docker images..." && docker images || echo "docker images failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
+          docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest --push ./helloworld || echo "docker build failed!!!"
+          # docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          # docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          echo "docker version..." && docker version || echo "docker version failed!!!"
+          echo "docker ps..." && docker ps || echo "docker ps failed!!!"
+          echo "docker images..." && docker images || echo "docker images failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
+      - name: docker_run
+        run: |
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          echo "docker version..." && docker version || echo "docker version failed!!!"
+          echo "docker ps..." && docker ps || echo "docker ps failed!!!"
+          echo "docker images..." && docker images || echo "docker images failed!!!"
+          echo "docker context..." && docker context inspect default || echo "docker context failed!!!"
+          docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
+          docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"
