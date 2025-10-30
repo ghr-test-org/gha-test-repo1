@@ -27,11 +27,31 @@ jobs:
           aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
       - name: docker_build
         run: |
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          docker info || echo "docker info failed!!!"
+          docker version || echo "docker version failed!!!"
+          docker ps || echo "docker ps failed!!!"
+          docker images || echo "docker images failed!!!"
+          docker context ls || echo "docker context ls failed!!!"
           docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest --push ./helloworld 
           # docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           # docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
-          docker images
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          docker info || echo "docker info failed!!!"
+          docker version || echo "docker version failed!!!"
+          docker ps || echo "docker ps failed!!!"
+          docker images || echo "docker images failed!!!"
+          docker context ls || echo "docker context ls failed!!!"
       - name: docker_run
         run: |
-          docker images
+          echo "DOCKER_HOST...$DOCKER_HOST"
+          echo "DOCKER_CONTEXT...$DOCKER_CONTEXT"
+          docker info || echo "docker info failed!!!"
+          docker version || echo "docker version failed!!!"
+          docker ps || echo "docker ps failed!!!"
+          docker images || echo "docker images failed!!!"
+          docker context ls || echo "docker context ls failed!!!"
+          docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
           docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest
