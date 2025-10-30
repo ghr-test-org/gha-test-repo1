@@ -4,7 +4,7 @@ jobs:
   Hello-World-Job:
     # Use the environmet specified in CodeBuild
     runs-on:
-      - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
+      - codebuild-github-runner-codeconnection-test1-${{ github.run_id }}-${{ github.run_attempt }}
     defaults:
       run:
         shell: bash
