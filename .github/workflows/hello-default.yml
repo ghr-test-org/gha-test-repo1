@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "docker info..." && docker info || echo "docker info failed!!!"
           docker build -t helloworld:latest ./helloworld --load || echo "docker build failed!!!"
-          docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker tag failed!!!""
+          docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker tag failed!!!"
           docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker push failed!!!"
       - name: docker_run
         run: |
