@@ -5,7 +5,7 @@ jobs:
     # Override the environment setup in CodeBuild
     runs-on:
       - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
-        fleet:github-runner-codeconnection-test-linux-small
+        fleet:github-runner-codeconnection-test-linux-small1
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
