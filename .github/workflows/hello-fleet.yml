@@ -5,6 +5,32 @@ jobs:
     # Override the environment setup in CodeBuild
     runs-on:
       - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
-        fleet:aws-tf-eks-demo-fleet
+        fleet:github-runner-codeconnection-test-linux-small
     steps:
-      - run: echo "Hello World"
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Testing
+      # --load is required in docker build, or push to ECR and run from ECR
+      - name: check_folder
+        run: |
+          echo "Hello World"
+          ls -la
+      - name: ecr_login
+        run: |
+          echo Logging in to Amazon ECR...
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com
+      - name: docker_build
+        run: |
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          docker build -t helloworld:latest ./helloworld || echo "docker build failed!!!"
+          docker tag helloworld:latest $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker tag failed!!!"
+          docker push $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker push failed!!!"
+      - name: docker_run
+        run: |
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
+          docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"
