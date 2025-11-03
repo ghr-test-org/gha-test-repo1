@@ -21,3 +21,4 @@ jobs:
         run: |
           echo "Hello World"
           ls -la
+          docker image ls
