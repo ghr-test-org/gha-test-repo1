@@ -1,4 +1,4 @@
-name: Hello World Default OAuth
+name: Hello World GitHub OAuth
 on: [workflow_dispatch]
 jobs:
   Hello-World-Job:

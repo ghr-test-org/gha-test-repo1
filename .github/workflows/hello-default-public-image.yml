@@ -1,0 +1,23 @@
+name: Hello World Custom Public Image
+on: [workflow_dispatch]
+jobs:
+  Hello-World-Job:
+    # Use the environmet specified in CodeBuild
+    runs-on:
+      - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
+        image:public.ecr.aws/amazonlinux/amazonlinux:latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Testing
+      - name: check_folder
+        run: |
+          echo "Hello World"
+          ls -la
