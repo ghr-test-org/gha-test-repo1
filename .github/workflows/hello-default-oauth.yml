@@ -1,10 +1,10 @@
-name: Hello World Default
+name: Hello World Default OAuth
 on: [workflow_dispatch]
 jobs:
   Hello-World-Job:
     # Use the environmet specified in CodeBuild
     runs-on:
-      - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
+      - codebuild-github-runner-oauth-secretsmanager-test-${{ github.run_id }}-${{ github.run_attempt }}
     defaults:
       run:
         shell: bash
