@@ -5,7 +5,7 @@ jobs:
     # Use the environmet specified in CodeBuild
     runs-on:
       - codebuild-github-runner-codeconnection-test-${{ github.run_id }}-${{ github.run_attempt }}
-        ${{ vars.ADRISE_CODEBUILD_CORRETTO11_IMAGE }}
+        image:public.ecr.aws/codebuild/amazonlinux2-x86_64-standard:corretto11
     defaults:
       run:
         shell: bash
@@ -20,6 +20,7 @@ jobs:
       - name: check_folder
         run: |
           echo "Hello World"
+          echo "Running on ${{ vars.ADRISE_CODEBUILD_CORRETTO11_IMAGE }}" 
           ls -la
           docker image ls
           cat /etc/os-release
