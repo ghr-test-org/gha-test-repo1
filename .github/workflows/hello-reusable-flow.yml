@@ -1,0 +1,43 @@
+name: Reusable Build with CodeBuild Runner
+on:
+  workflow_call:
+    inputs:
+      build_target:
+        description: 'The target to build (e.g., "frontend", "backend")'
+        required: true
+        type: string
+jobs:
+  hello-build:
+    # Override the environment setup in CodeBuild
+    runs-on: 
+      - ${{ vars.ADRISE_CODEBUILD_PROJECT }}-${{ github.run_id }}-${{ github.run_attempt }} ${{ vars.ADRISE_UBUNTU7_SMALL }}
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Testing
+      # --load is required in docker build, or push to ECR and run from ECR
+      - name: check_folder
+        run: |
+          echo "Hello World"
+          echo "${{ vars.ADRISE_UBUNTU7_SMALL }}"
+          ls -la
+      - name: ecr_login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: helloworld
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./helloworld
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: docker_run
+        run: |
+          echo "docker info..." && docker info || echo "docker info failed!!!"
+          docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
+          docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"
