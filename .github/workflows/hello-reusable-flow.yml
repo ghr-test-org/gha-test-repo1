@@ -28,16 +28,18 @@ jobs:
       - name: ecr_login
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "539372902882"
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: helloworld
+          REPOSITORY: test-adrise-cross
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./helloworld
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      - name: docker_run
-        run: |
-          echo "docker info..." && docker info || echo "docker info failed!!!"
-          docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
-          docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"
+      # - name: docker_run
+      #   run: |
+      #     echo "docker info..." && docker info || echo "docker info failed!!!"
+      #     docker pull $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker pull failed!!!"
+      #     docker run $ECR_ACCOUNT_ID.dkr.ecr.$ECR_REGION.amazonaws.com/helloworld:latest || echo "docker run failed!!!"
