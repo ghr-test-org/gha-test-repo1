@@ -38,7 +38,7 @@ jobs:
         run: |
           # docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./helloworld
           docker pull 612676718678.dkr.ecr.us-east-1.amazonaws.com/helloworld:latest
-          docker tag 539372902882.dkr.ecr.us-east-1.amazonaws.com/test-adrise-cross:latest
+          docker tag 612676718678.dkr.ecr.us-east-1.amazonaws.com/helloworld:latest 539372902882.dkr.ecr.us-east-1.amazonaws.com/test-adrise-cross:latest
           docker push 539372902882.dkr.ecr.us-east-1.amazonaws.com/test-adrise-cross:latest
           # docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       # - name: docker_run
